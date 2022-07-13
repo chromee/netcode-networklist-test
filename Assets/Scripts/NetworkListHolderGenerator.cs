@@ -9,30 +9,30 @@ public class NetworkListHolderGenerator : NetworkBehaviour
 {
     [SerializeField] private NetworkListHolder _networkListHolderPrefab;
 
-    private void Update()
+    private void OnGUI()
     {
         if (!IsServer) return;
+        
+        GUILayout.Space(300);
 
         // NetworkList is not synchronized.
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (GUILayout.Button("before spawn"))
         {
-            Debug.LogError("Update NetworkList before spawn.");
             var holder = Instantiate(_networkListHolderPrefab);
             holder.UpdateNetworkList();
             holder.GetComponent<NetworkObject>().Spawn();
         }
 
         // NetworkList is not synchronized.
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (GUILayout.Button("after spawn"))
         {
-            Debug.LogError("Update NetworkList after spawn.");
             var holder = Instantiate(_networkListHolderPrefab);
             holder.GetComponent<NetworkObject>().Spawn();
             holder.UpdateNetworkList();
         }
 
         // NetworkList is synchronized.
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (GUILayout.Button("1 second after spawn"))
         {
             StartCoroutine(UpdateNetworkListAfter1Sec());
         }
@@ -40,7 +40,6 @@ public class NetworkListHolderGenerator : NetworkBehaviour
 
     private IEnumerator UpdateNetworkListAfter1Sec()
     {
-        Debug.LogError("Update NetworkList after 1 sec spawn.");
         var holder = Instantiate(_networkListHolderPrefab);
         holder.GetComponent<NetworkObject>().Spawn();
         yield return new WaitForSeconds(1f);

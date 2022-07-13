@@ -29,15 +29,12 @@ public class NetworkListHolder : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        var sb = new StringBuilder();
+        foreach (var num in _networkNumbers)
         {
-            var sb = new StringBuilder();
-            foreach (var num in _networkNumbers)
-            {
-                sb.Append($"{num}, ");
-            }
-
-            Debug.LogError($"{name}: {sb}");
+            sb.Append($"{num}, ");
         }
+
+        Debug.LogError($"{name}: {sb}");
     }
 }
